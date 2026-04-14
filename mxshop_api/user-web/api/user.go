@@ -3,6 +3,7 @@ package api
 import (
 	"context"
 	"fmt"
+	"mxshop_api/user-web/global"
 	"mxshop_api/user-web/proto"
 	"net/http"
 	"time"
@@ -46,10 +47,10 @@ func HandlerGrpcErrorToHttp(err error, c *gin.Context) {
 }
 
 func GetUserList(ctx *gin.Context) {
-	ip := "127.0.0.1"
-	port := 50051
+	ip := global.ServerConfig.UserSrvConfig.Host
+	port := global.ServerConfig.UserSrvConfig.Port
 	conn, err := grpc.NewClient(
-		fmt.Sprintf("%s:%d", ip, port),
+		fmt.Sprintf("%s:%s", ip, port),
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 	)
 	if err != nil {
