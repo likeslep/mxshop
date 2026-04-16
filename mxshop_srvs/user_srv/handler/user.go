@@ -60,7 +60,7 @@ func HashPassword(password string) (string, error) {
 }
 
 // 验证密码（比对明文和哈希，不需要解密）
-func CheckPassword(hashedPassword, plainPassword string) error {
+func checkPassword(hashedPassword, plainPassword string) error {
 	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(plainPassword))
 }
 
@@ -165,8 +165,7 @@ func (s *UserServer) UpdateUser(ctx context.Context, req *proto.UpdateUserReques
 
 // CheckPassword 验证密码
 func (s *UserServer) CheckPassword(ctx context.Context, req *proto.CheckPasswordRequest) (*proto.CheckPasswordResponse, error) {
-	CheckPassword(req.EncryptedPassword, req.Password)
-	if err := CheckPassword(req.EncryptedPassword, req.Password); err != nil {
+	if err := checkPassword(req.EncryptedPassword, req.Password); err != nil {
 		return &proto.CheckPasswordResponse{Success: false}, nil
 	}
 

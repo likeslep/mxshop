@@ -18,6 +18,9 @@ func main() {
 	// 3. 初始化配置文件
 	initialize.InitConfig()
 
+	// 4. 初始化翻译器
+	initialize.InitTranslations()
+
 	port := global.ServerConfig.Port
 
 	zap.S().Debugf("启动服务器，端口: %d", port)
